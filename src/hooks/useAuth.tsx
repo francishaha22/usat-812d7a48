@@ -64,10 +64,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchUserRole = async (userId: string) => {
     try {
+      // Fetch from user_roles table (secure approach)
       const { data, error } = await (supabase as any)
-        .from("profiles")
+        .from("user_roles")
         .select("role")
-        .eq("id", userId)
+        .eq("user_id", userId)
         .maybeSingle();
 
       if (error) throw error;

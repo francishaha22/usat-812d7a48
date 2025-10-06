@@ -3,6 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LogOut, GraduationCap } from "lucide-react";
+import { NotificationCenter } from "./notifications/NotificationCenter";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -39,6 +40,7 @@ const DashboardLayout = ({ children, title }: DashboardLayoutProps) => {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <NotificationCenter />
             <Badge className={getRoleBadgeColor()}>
               {role?.toUpperCase()}
             </Badge>
