@@ -143,17 +143,17 @@ const Login = () => {
       }
 
       if (data.user) {
-        // Fetch user role to redirect appropriately
-        const { data: profile, error: profileError } = await (supabase as any)
-          .from("profiles")
+        // Fetch user role from user_roles table (secure authorization source)
+        const { data: userRole, error: roleError } = await (supabase as any)
+          .from("user_roles")
           .select("role")
-          .eq("id", data.user.id)
+          .eq("user_id", data.user.id)
           .maybeSingle();
 
-        if (profileError || !profile) {
+        if (roleError || !userRole) {
           toast({
             title: "Error",
-            description: "Could not fetch user profile. Please contact an admin to set up your role.",
+            description: "Could not fetch user role. Please contact an admin to set up your role.",
             variant: "destructive",
           });
           return;
@@ -164,8 +164,8 @@ const Login = () => {
           description: "You have successfully logged in.",
         });
 
-        if (profile?.role) {
-          redirectBasedOnRole(profile.role);
+        if (userRole?.role) {
+          redirectBasedOnRole(userRole.role);
         } else {
           toast({
             title: "No role assigned",
