@@ -30,9 +30,11 @@ const Login = () => {
   useEffect(() => {
     // Redirect if already logged in
     if (user && role) {
-      redirectBasedOnRole(role);
+      setTimeout(() => {
+        redirectBasedOnRole(role);
+      }, 100);
     }
-  }, [user, role, navigate]);
+  }, [user, role]);
 
   const redirectBasedOnRole = (userRole: string) => {
     switch (userRole) {
@@ -164,15 +166,18 @@ const Login = () => {
           description: "You have successfully logged in.",
         });
 
-        if (userRole?.role) {
-          redirectBasedOnRole(userRole.role);
-        } else {
-          toast({
-            title: "No role assigned",
-            description: "Please contact an admin to assign your role.",
-            variant: "destructive",
-          });
-        }
+        // Small delay to ensure state updates before redirect
+        setTimeout(() => {
+          if (userRole?.role) {
+            redirectBasedOnRole(userRole.role);
+          } else {
+            toast({
+              title: "No role assigned",
+              description: "Please contact an admin to assign your role.",
+              variant: "destructive",
+            });
+          }
+        }, 300);
       }
     } catch (error: any) {
       toast({
